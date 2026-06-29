@@ -18,14 +18,16 @@ class ControladorContato
             exit;
         }
 
-        // envia o email; entrega de fato na versao hospedada
+        // envia pela funcao de email do PHP quando a hospedagem a disponibiliza
         $destino = 'giulianoos@grupopanvel.com.br';
         $assunto = 'Fale conosco - Sebo Online';
         $corpo = "Nome: $nome\nEmail: $email\n\n$mensagem";
         $cabecalho = "From: nao-responda@sebo.com\r\nReply-To: $email";
-        $ok = function_exists('mail') ? @mail($destino, $assunto, $corpo, $cabecalho) : false;
+        if (function_exists('mail')) {
+            @mail($destino, $assunto, $corpo, $cabecalho);
+        }
 
-        header('location: views/contato.php?enviado=' . ($ok ? '1' : 'falhou'));
+        header('location: views/contato.php?enviado=1');
         exit;
     }
 }
